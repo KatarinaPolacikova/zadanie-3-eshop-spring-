@@ -29,22 +29,22 @@ public class CartController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CartResponse getList(@PathVariable("id") long listId) throws NotFoundException {
-        return new CartResponse(this.service.getById(listId));
+    public CartResponse getList(@PathVariable("id") long cartId) throws NotFoundException {
+        return new CartResponse(this.service.getById(cartId));
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") long listId) throws NotFoundException, IllegalOperationException {
-        this.service.delete(listId);
+    public void delete(@PathVariable("id") long cartId) throws NotFoundException, IllegalOperationException {
+        this.service.delete(cartId);
     }
 
     @PostMapping(value = "/{id}/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CartResponse addToList(@PathVariable("id") Long listId, @RequestBody ProductIdRequest body) throws NotFoundException, IllegalOperationException {
-        return new CartResponse(this.service.addToList(listId, body));
+    public CartResponse addToList(@PathVariable("id") Long cartId, @RequestBody ProductIdRequest body) throws NotFoundException, IllegalOperationException {
+        return new CartResponse(this.service.addToList(cartId, body));
     }
 
     @DeleteMapping(value = "/{id}/remove", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void removeFromList(@PathVariable("id") Long listId, @RequestBody ProductIdRequest body) throws NotFoundException, IllegalOperationException {
-        this.service.removeFromList(listId, body);
+    public void removeFromList(@PathVariable("id") Long cartId, @RequestBody ProductIdRequest body) throws NotFoundException, IllegalOperationException {
+        this.service.removeFromList(cartId, body);
     }
 }
