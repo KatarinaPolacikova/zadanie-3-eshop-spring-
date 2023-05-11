@@ -2,7 +2,7 @@ package sk.stuba.fei.uim.oop.assignment3.cart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sk.stuba.fei.uim.oop.assignment3.exceptions.IllegalOperationException;
+import sk.stuba.fei.uim.oop.assignment3.exceptions.BadRequestException;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.item.CartItem;
 import sk.stuba.fei.uim.oop.assignment3.item.ICartItemService;
@@ -49,26 +49,26 @@ public class CartService implements ICartService{
     }
 
     @Override
-    public Cart addToCart(long id, CartEntry body) throws NotFoundException, IllegalOperationException {
+    public Cart addToCart(long id, CartEntry body) throws NotFoundException, BadRequestException {
         Cart cart = this.getById(id);
-        if(cart.isPayed()){
-            throw new IllegalOperationException();
-        }
         Product product = this.productService.getById(body.getProductId());
 
-        if(product.getAmount() < body.getAmount()){
-            throw new IllegalOperationException();
+        if(cart.isPayed() || product.getAmount() < body.getAmount()){
+            throw new BadRequestException();
         }
+
         for(CartItem item : cart.getProductsInCart()){
             if(item.getProduct().getId().longValue() == body.getProductId().longValue()){
                 item.setAmount(item.getAmount() + body.getAmount());
                 itemService.save(item);
+                this.productService.addAmount(product.getId(),-body.getAmount());
                 return this.repo.save(cart);
             }
         }
         CartItem item = new CartItem();
         item.setAmount(body.getAmount());
         item.setProduct(productService.getById(body.getProductId()));
+        this.productService.addAmount(product.getId(),-body.getAmount());
 
         CartItem finalItem = itemService.save(item);
         cart.getProductsInCart().add(finalItem);
@@ -76,15 +76,16 @@ public class CartService implements ICartService{
     }
 
     @Override
-    public String payForShoppingCart(Long id) throws NotFoundException, IllegalOperationException {
+    public String payForShoppingCart(Long id) throws NotFoundException, BadRequestException {
         Cart cart = this.getById(id);
-        if (cart.isPayed()) {
-            throw new IllegalOperationException();
-        }
         float price = 0;
+
+        if (cart.isPayed()) {
+            throw new BadRequestException();
+        }
         for (CartItem item : cart.getProductsInCart()) {
             Product product = this.productService.getById(item.getId());
-            price += product.getPrice() * item.getAmount();
+            price = price + product.getPrice()*item.getAmount();
         }
 
         cart.setPayed(true);
