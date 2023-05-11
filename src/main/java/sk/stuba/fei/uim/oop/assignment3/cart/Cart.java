@@ -2,7 +2,7 @@ package sk.stuba.fei.uim.oop.assignment3.cart;
 
 import lombok.Getter;
 import lombok.Setter;
-import sk.stuba.fei.uim.oop.assignment3.product.Product;
+import sk.stuba.fei.uim.oop.assignment3.item.CartItem;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ public class Cart {
     private  Long id;
 
     @OneToMany
-    private List<Product> shoppingList;
+    private List<CartItem> productsInCart;
 
     private boolean payed;
 
-    public Cart() {this.shoppingList = new ArrayList<>();}
+    public Cart() {this.productsInCart = new ArrayList<>();}
 }

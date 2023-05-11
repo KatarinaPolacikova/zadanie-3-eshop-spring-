@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.assignment3.product;
 
-import sk.stuba.fei.uim.oop.assignment3.exceptions.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.NotFoundException;
 
 import java.util.List;

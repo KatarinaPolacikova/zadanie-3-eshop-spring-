@@ -16,7 +16,7 @@ public class ProductService implements IProductService{
     public List<Product> getAll() {return  this.repo.findAll();}
 
     @Override
-    public Product create(ProductRequest request) throws NotFoundException {
+    public Product create(ProductRequest request){
         Product product = this.repo.save(new Product(request));
         return product;
     }
