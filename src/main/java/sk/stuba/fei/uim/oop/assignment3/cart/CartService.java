@@ -55,6 +55,7 @@ public class CartService implements ICartService{
             throw new IllegalOperationException();
         }
         Product product = this.productService.getById(body.getProductId());
+
         if(product.getAmount() < body.getAmount()){
             throw new IllegalOperationException();
         }
@@ -72,12 +73,22 @@ public class CartService implements ICartService{
         CartItem finalItem = itemService.save(item);
         cart.getProductsInCart().add(finalItem);
         return this.repo.save(cart);
-
     }
 
     @Override
-    public Cart removeFromCart(long id, CartEntry body){
-        return null;
-    }
+    public String payForShoppingCart(Long id) throws NotFoundException, IllegalOperationException {
+        Cart cart = this.getById(id);
+        if (cart.isPayed()) {
+            throw new IllegalOperationException();
+        }
+        float price = 0;
+        for (CartItem item : cart.getProductsInCart()) {
+            Product product = this.productService.getById(item.getId());
+            price += product.getPrice() * item.getAmount();
+        }
 
+        cart.setPayed(true);
+        this.repo.save(cart);
+        return Float.toString(price);
+    }
 }

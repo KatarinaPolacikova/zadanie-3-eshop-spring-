@@ -43,8 +43,8 @@ public class CartController {
 
     }
 
-    @DeleteMapping(value = "/{id}/remove", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void removeFromCart(@PathVariable("id") Long cartId, @RequestBody CartEntry body) throws NotFoundException, IllegalOperationException {
-        this.service.removeFromCart(cartId, body);
+    @GetMapping("/{id}/pay")
+    public String payForShoppingCart(@PathVariable("id") Long id) throws NotFoundException, IllegalOperationException {
+        return this.service.payForShoppingCart(id);
     }
 }

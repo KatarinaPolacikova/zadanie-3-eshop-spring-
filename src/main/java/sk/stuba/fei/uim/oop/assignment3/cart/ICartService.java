@@ -11,5 +11,5 @@ public interface ICartService {
     Cart getById(Long id) throws NotFoundException;
     void delete(Long id) throws NotFoundException, IllegalOperationException;
     Cart addToCart(long id, CartEntry body) throws NotFoundException, IllegalOperationException;
-    Cart removeFromCart(long id, CartEntry body) throws NotFoundException, IllegalOperationException;
+    String payForShoppingCart(Long id) throws NotFoundException, IllegalOperationException;
 }
