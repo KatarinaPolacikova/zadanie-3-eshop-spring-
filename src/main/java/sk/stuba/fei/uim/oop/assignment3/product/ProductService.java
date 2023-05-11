@@ -17,8 +17,7 @@ public class ProductService implements IProductService{
 
     @Override
     public Product create(ProductRequest request){
-        Product product = this.repo.save(new Product(request));
-        return product;
+        return this.repo.save(new Product(request));
     }
 
     @Override

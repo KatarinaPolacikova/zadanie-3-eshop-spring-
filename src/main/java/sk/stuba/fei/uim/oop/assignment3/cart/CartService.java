@@ -84,7 +84,7 @@ public class CartService implements ICartService{
             throw new BadRequestException();
         }
         for (CartItem item : cart.getProductsInCart()) {
-            Product product = this.productService.getById(item.getId());
+            Product product = this.productService.getById(item.getProduct().getId());
             price = price + product.getPrice()*item.getAmount();
         }
 
