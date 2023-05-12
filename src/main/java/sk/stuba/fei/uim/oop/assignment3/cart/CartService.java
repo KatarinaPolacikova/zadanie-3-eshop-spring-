@@ -78,7 +78,7 @@ public class CartService implements ICartService{
     @Override
     public String payForShoppingCart(Long id) throws NotFoundException, BadRequestException {
         Cart cart = this.getById(id);
-        float price = 0;
+        double price = 0;
 
         if (cart.isPayed()) {
             throw new BadRequestException();
@@ -90,6 +90,6 @@ public class CartService implements ICartService{
 
         cart.setPayed(true);
         this.repo.save(cart);
-        return Float.toString(price);
+        return Double.toString(price);
     }
 }

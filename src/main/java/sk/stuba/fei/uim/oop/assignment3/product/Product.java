@@ -22,7 +22,7 @@ public class Product {
     private String description;
     private int amount;
     private String unit;
-    private float price;
+    private double price;
 
     public Product(ProductRequest pr){
         this.name = pr.getName();

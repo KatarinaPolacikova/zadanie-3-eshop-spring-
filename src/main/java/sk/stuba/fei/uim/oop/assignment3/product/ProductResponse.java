@@ -9,7 +9,7 @@ public class ProductResponse {
     private final String description;
     private final int amount;
     private final String unit;
-    private final float price;
+    private final double price;
 
     public ProductResponse(Product product) {
         this.id = product.getId();
